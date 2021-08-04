@@ -3,19 +3,29 @@ import { useState } from "react";
 import styles from "./AddUser.module.css";
 import Card from "../Card/Card";
 import Button from "../Button/Button";
+import ErrorModal from "../ErrorModal/ErrorModal";
 
 function AddUser(props) {
 	const [username, setUsername] = useState("");
 	const [age, setAge] = useState("");
+	const [error, setError] = useState();
 
 	const addUserHandle = (event) => {
 		event.preventDefault();
 
 		if (username.trim().length === 0 || age.trim().length === 0) {
+			setError({
+				title: "Invalid input",
+				message: "Please enter a valid name and age (non-empty values).",
+			});
 			return;
 		}
-		
+
 		if (+age < 1) {
+			setError({
+				title: "Invalid age",
+				message: "Please enter a valid age (greater than 0).",
+			});
 			return;
 		}
 
@@ -33,25 +43,39 @@ function AddUser(props) {
 		setAge(event.target.value);
 	};
 
+	const handleCloseModal = () => {
+		setError(null);
+	};
+
 	return (
-		<Card className={styles.input}>
-			<form onSubmit={addUserHandle}>
-				<label htmlFor="username">Username</label>
-				<input
-					type="text"
-					value={username}
-					id="username"
-					onChange={usernameHandler}
+		<>
+			{error && (
+				<ErrorModal
+					title={error.title}
+					message={error.message}
+					onClose={handleCloseModal}
 				/>
+			)}
 
-				<label htmlFor="age">Age (Years)</label>
-				<input type="number" value={age} id="age" onChange={ageHandler} />
+			<Card className={styles.input}>
+				<form onSubmit={addUserHandle}>
+					<label htmlFor="username">Username</label>
+					<input
+						type="text"
+						value={username}
+						id="username"
+						onChange={usernameHandler}
+					/>
 
-				<Button type="submit" handleClick={addUserHandle}>
-					Add User
-				</Button>
-			</form>
-		</Card>
+					<label htmlFor="age">Age (Years)</label>
+					<input type="number" value={age} id="age" onChange={ageHandler} />
+
+					<Button type="submit" handleClick={addUserHandle}>
+						Add User
+					</Button>
+				</form>
+			</Card>
+		</>
 	);
 }
 
