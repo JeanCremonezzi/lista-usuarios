@@ -68,7 +68,7 @@ function AddUser(props) {
 					/>
 
 					<label htmlFor="age">Age (Years)</label>
-					<input type="number" value={age} id="age" onChange={ageHandler} />
+					<input type="number" value={age} min="1" id="age" onChange={ageHandler} />
 
 					<Button type="submit" handleClick={addUserHandle}>
 						Add User
