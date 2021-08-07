@@ -4,7 +4,7 @@ import Button from "../Button/Button";
 
 function ErrorModal(props) {
 	return (
-		<div>
+		<>
 			<div className={styles.backdrop} onClick={props.onClose} />
 
 			<Card className={styles.modal}>
@@ -20,7 +20,7 @@ function ErrorModal(props) {
 					<Button handleClick={props.onClose}>Close</Button>
 				</footer>
 			</Card>
-		</div>
+		</>
 	);
 }
 
